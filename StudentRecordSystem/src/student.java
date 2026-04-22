@@ -50,8 +50,8 @@ public class student {
     }
 
     public static void main(String[] args) throws Exception {
-        insertStudent(2, "Alice", "alice@example.com", "ECE");
-        updateStudent(1, "Chakri Updated");
+        insertStudent(2, "Rohith", "rohith@example.com", "AGRICULTURE");
+        updateStudent(2, "Rohith Updated");
         showStudents();
     }
 }
