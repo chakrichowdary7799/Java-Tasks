@@ -3,6 +3,7 @@
          xmlns:xsi="http://w3.org"
          xsi:schemaLocation="http://apache.org https://apache.org">
     <modelVersion>4.0.0</modelVersion>
+    <!-- This is a dummy line to trigger a git commit change -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
