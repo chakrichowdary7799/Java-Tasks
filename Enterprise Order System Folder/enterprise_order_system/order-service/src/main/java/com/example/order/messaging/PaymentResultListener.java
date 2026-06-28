@@ -1,21 +1,30 @@
 package com.example.order.messaging;
 
-import com.example.common.event.OrderStatus;
-import com.example.common.event.PaymentEvent;
-import com.example.order.repository.OrderRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import com.example.common.event.OrderStatus;
+import com.example.common.event.PaymentEvent;
+import com.example.order.repository.OrderRepository;
+
 @Component
-@RequiredArgsConstructor
 public class PaymentResultListener {
+
     private final OrderRepository orderRepository;
+
+    // Explicit constructor fixes the initialization compile error
+    public PaymentResultListener(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     @KafkaListener(topics = "payment-events", groupId = "order-group")
     public void handlePayment(PaymentEvent event) {
         orderRepository.findById(event.getOrderId()).ifPresent(order -> {
-            order.setStatus("SUCCESSFUL".equals(event.getStatus()) ? OrderStatus.COMPLETED : OrderStatus.REJECTED);
+            if ("SUCCESSFUL".equalsIgnoreCase(event.getStatus())) {
+                order.setStatus(OrderStatus.COMPLETED);
+            } else {
+                order.setStatus(OrderStatus.REJECTED);
+            }
             orderRepository.save(order);
         });
     }
