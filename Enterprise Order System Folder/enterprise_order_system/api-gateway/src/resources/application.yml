@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # Route for Order Microservice
+        - id: order-service-route
+          uri: http://localhost:8081
+          predicates:
+            - Path=/orders/**
+
+        # Route for Payment Microservice
+        - id: payment-service-route
+          uri: http://localhost:8082
+          predicates:
+            - Path=/payments/**
+
+        # Route for Inventory Microservice
+        - id: inventory-service-route
+          uri: http://localhost:8083
+          predicates:
+            - Path=/inventory/**
+
+        # Route for User Microservice
+        - id: user-service-route
+          uri: http://localhost:8084
+          predicates:
+            - Path=/users/**
