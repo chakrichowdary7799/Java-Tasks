@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: coupon-engine
+  
+  datasource:
+    "[url]": jdbc:mysql://localhost:3306/coupon_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: Chakri@7799
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    hikari:
+      maximum-pool-size: 50      # Enhanced for high load concurrent testing
+      minimum-idle: 10
+      idle-timeout: 10000
+      pool-name: CouponHikariCP
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update          # Auto-generates schemas during dev environment setup
+    show-sql: false             # Disable in production; set to true for query debugging
+    properties:
+      hibernate:
+        "[format_sql]": true
+        "[default_batch_fetch_size]": 20 # Protects against basic N+1 lazy iteration fetches
+
+logging:
+  level:
+    "[org.springframework.transaction]": DEBUG # Tracks @Transactional boundaries and isolation locks
